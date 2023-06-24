@@ -1,1 +1,4 @@
-meaning/sst_test_map_deberta.xlsx
+entity/*.tsv
+meaning/*.tsv
+meaning/*.xlsx
+entity/*.xlsx
