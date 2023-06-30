@@ -2,3 +2,5 @@ entity/*.tsv
 meaning/*.tsv
 meaning/*.xlsx
 entity/*.xlsx
+entity/*.csv
+meaning/*.csv
