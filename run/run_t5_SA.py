@@ -19,6 +19,8 @@ model_name = "michelecafagna26/t5-base-finetuned-sst2-sentiment"
 model = AutoModelForSeq2SeqLM.from_pretrained("/mnt/t5_SA")
 tokenizer = AutoTokenizer.from_pretrained("/mnt/t5_SA")
 model = model.to(torch.device("cuda"))
+workbook = openpyxl.load_workbook('sst_test_map_t5.xlsx')
+sheet = workbook.active
 
 with open('./sst_test_map_syn.txt', 'r') as file:
   lines = file.readlines()
@@ -54,8 +56,6 @@ with open('./sst_test_map_syn.txt', 'r') as file:
         sentiments.append(1)
       else:
         sentiments.append(0)
-    workbook = openpyxl.load_workbook('sst_test_map_t5.xlsx')
-    sheet = workbook.active
     data = []
     for i in range(0, len(texts)):
       data.append(texts[i])
@@ -63,5 +63,5 @@ with open('./sst_test_map_syn.txt', 'r') as file:
       data.append(scores[i][0])
       data.append(scores[i][1])
     sheet.append(data)
-    workbook.save('sst_test_map_t5.xlsx')
-    workbook.close()
+workbook.save('sst_test_map_t5.xlsx')
+workbook.close()
