@@ -13,14 +13,16 @@ from transformers import AutoModel, AutoTokenizer, AutoModelForSeq2SeqLM, AutoMo
 import torch
 import re
 from tqdm import tqdm
-import openpyxl
+from openpyxl import Workbook
 MODEL = AutoModelForSequenceClassification.from_pretrained("/mnt/deberta_SA")
 tokenizer = AutoTokenizer.from_pretrained("/mnt/deberta_SA")
 nlp = pipeline('text-classification', model=MODEL, tokenizer=tokenizer, device=0)
 
-workbook = openpyxl.load_workbook('sst_test_map_deberta.xlsx')
+input = 'checklist_sst_change'
+
+workbook = Workbook()
 sheet = workbook.active
-with open('./sst_test_map_syn.txt', 'r') as file:
+with open(input + '.txt', 'r') as file:
   lines = file.readlines()
   for line in tqdm(lines):
     if line.startswith('sent_id') or line.startswith('insert') or line == '\n':
@@ -45,5 +47,5 @@ with open('./sst_test_map_syn.txt', 'r') as file:
       data.append(scores[i][0])
       data.append(scores[i][1])
     sheet.append(data)
-workbook.save('sst_test_map_deberta.xlsx')
+workbook.save(input + '_deberta.xlsx')
 workbook.close()

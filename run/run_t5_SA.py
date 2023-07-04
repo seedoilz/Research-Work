@@ -14,15 +14,17 @@ from transformers import pipeline
 import torch
 import re
 from tqdm import tqdm
-import openpyxl
+from openpyxl import Workbook
 model_name = "michelecafagna26/t5-base-finetuned-sst2-sentiment"
 model = AutoModelForSeq2SeqLM.from_pretrained("/mnt/t5_SA")
 tokenizer = AutoTokenizer.from_pretrained("/mnt/t5_SA")
 model = model.to(torch.device("cuda"))
-workbook = openpyxl.load_workbook('sst_test_map_t5.xlsx')
+
+input = 'checklist_sst_change'
+workbook = Workbook()
 sheet = workbook.active
 
-with open('./sst_test_map_syn.txt', 'r') as file:
+with open(input + '.txt', 'r') as file:
   lines = file.readlines()
   for line in tqdm(lines):
     if line.startswith('sent_id') or line.startswith('insert') or line == '\n':
@@ -63,5 +65,5 @@ with open('./sst_test_map_syn.txt', 'r') as file:
       data.append(scores[i][0])
       data.append(scores[i][1])
     sheet.append(data)
-workbook.save('sst_test_map_t5.xlsx')
+workbook.save(input + '.xlsx')
 workbook.close()
