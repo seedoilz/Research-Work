@@ -4,3 +4,5 @@ meaning/*.xlsx
 entity/*.xlsx
 entity/*.csv
 meaning/*.csv
+sampling/*.csv
+sampling/*.tsv
